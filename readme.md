@@ -1,84 +1,138 @@
-# Multi-Vendor Inventory System
+# 📦 Multi-Vendor Inventory System
 
-## Overview
-This project is a **FastAPI backend service** designed to manage a product inventory where items have a many-to-many relationship with vendors. It supports stock tracking, vendor management, and a flexible ordering flow.
+## 🚀 Overview
 
-## Features
-- **Stock Management**  
-  Maintain a central registry of unique stock items.
-- **Vendor Relations**  
+This project is a **FastAPI-based backend service** for managing inventory with a **many-to-many relationship between items and vendors**. It supports stock tracking, vendor linking, and a controlled ordering system.
+
+---
+
+## ✨ Features
+
+* 📊 **Stock Management**
+  Maintain a centralized list of inventory items.
+
+* 🤝 **Vendor Management**
   Link multiple vendors to a single item.
-- **Ordering Logic**  
-  Create purchase orders with manual vendor selection.
-- **Validation**  
-  Ensure orders can only be placed with linked vendors.
-- **API Endpoints**
-  - `POST /items/` → Create a new item
-  - `GET /items/` → List all items
-  - `POST /vendors/` → Create a new vendor
-  - `POST /vendors/link/{item_id}/{vendor_id}` → Link vendor to item
-  - `POST /orders/` → Create a new order
-  - `GET /orders/` → List all orders
 
+* 🛒 **Ordering System**
+  Create purchase orders with vendor selection.
 
-## Tech Stack
-- **FastAPI** (REST API framework)
-- **SQLAlchemy** (ORM)
-- **PostgreSQL** (Database)
-- **Pytest** (Testing)
+* ✅ **Validation Rules**
+  Orders can only be placed with vendors linked to the item.
 
-## Project Structure
+* 🔗 **REST API Endpoints**
+
+  * `POST /items/` → Create item
+  * `GET /items/` → List items
+  * `POST /vendors/` → Create vendor
+  * `POST /vendors/link/{item_id}/{vendor_id}` → Link vendor
+  * `POST /orders/` → Create order
+  * `GET /orders/` → List orders
+
+---
+
+## 🛠️ Tech Stack
+
+* **FastAPI** – API framework
+* **SQLAlchemy** – ORM
+* **PostgreSQL** – Database
+* **Pytest** – Testing
+
+---
+
+## 📁 Project Structure
+
+```bash
 app/
 ├── main.py          # FastAPI entry point
 ├── database.py      # Database connection
 ├── models.py        # SQLAlchemy models
 ├── schemas.py       # Pydantic schemas
 ├── routers/
-│    ├── stock.py    # Item endpoints
-│    ├── vendor.py   # Vendor endpoints
-│    └── orders.py   # Order endpoints
+│   ├── stock.py     # Item endpoints
+│   ├── vendor.py    # Vendor endpoints
+│   └── orders.py    # Order endpoints
+
 tests/
 ├── test_items.py
 ├── test_vendors.py
 └── test_orders.py
+```
 
+---
 
+## ⚙️ Setup Instructions
 
-## Setup Instructions
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/inventory-system.git
-   cd inventory-system
+### 1️⃣ Clone Repository
 
-# install requierments
-2. pip install -r requirements.txt
+```bash
+git clone https://github.com/yourusername/inventory-system.git
+cd inventory-system
+```
 
-# Create DB
-3. CREATE DATABASE inventory_db;
+### 2️⃣ Install Dependencies
 
-# Create Connection
-4. DATABASE_URL = "postgresql://postgres:yourpassword@localhost:5432/inventory_db"
+```bash
+pip install -r requirements.txt
+```
 
-# Run Server
-5. uvicorn main:app --reload
+### 3️⃣ Setup Database
 
-# Swagger UI
-6. http://127.0.0.1:8000/docs
+```sql
+CREATE DATABASE inventory_db;
+```
 
-# Testing
-7. pytest -v
+### 4️⃣ Configure Connection
 
-# ER Diagram
+Update in `database.py`:
 
+```python
+DATABASE_URL = "postgresql://postgres:yourpassword@localhost:5432/inventory_db"
+```
+
+### 5️⃣ Run Server
+
+```bash
+uvicorn app.main:app --reload
+```
+
+### 6️⃣ Open Swagger UI
+
+```
+http://127.0.0.1:8000/docs
+```
+
+### 7️⃣ Run Tests
+
+```bash
+pytest -v
+```
+
+---
+
+## 🧩 ER Diagram
+
+```
 +-----------+        +-------------+        +-------------+
 | StockItem |<------>| ItemVendor  |<------>| Vendor      |
 +-----------+        +-------------+        +-------------+
       |                                         ^
       |                                         |
       +-------------< PurchaseOrder >------------+
+```
+
+* **StockItem ↔ Vendor** → Many-to-Many (via ItemVendor)
+* **PurchaseOrder** → Links item + vendor + quantity
+
+---
 
 
-StockItem ↔ Vendor: Many-to-many via ItemVendor
+## 🤝 Contributing
 
-PurchaseOrder: Links an item to a vendor with quantity
+Pull requests are welcome. For major changes, please open an issue first.
+
+---
+
+
+
 
